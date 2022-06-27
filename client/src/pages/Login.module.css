@@ -1,0 +1,17 @@
+.toggle {
+  cursor: pointer;
+  color: rgb(61, 61, 185);
+  text-decoration: underline;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centerCard {
+  margin-top: 8rem;
+}
+
+.googleicon {
+  margin-right: 1rem;
+}

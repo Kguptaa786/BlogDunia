@@ -1,0 +1,228 @@
+**********Features**********
+
+CRUD blog
+Add categories
+Filter blog according to category
+Add comment to blog
+Login user/Register User using name, email, password
+
+*********Backend**********
+Routes->
+    router.post('/login', loginUser);
+    router.post('/signup', singupUser);
+
+    router.post('/create', authenticateToken, createPost);
+    router.put('/update/:id', authenticateToken, updatePost);
+    router.delete('/delete/:id', authenticateToken, deletePost);
+
+    router.get('/post/:id', authenticateToken, getPost);
+    router.get('/posts', authenticateToken, getAllPosts);
+
+    router.post('/file/upload', upload.single('file'), uploadImage);
+    router.get('/file/:filename', getImage);
+
+    router.post('/comment/new', authenticateToken, newComment);
+    router.get('/comments/:id', authenticateToken, getComments);
+    router.delete('/comment/delete/:id', authenticateToken, deleteComment);
+
+
+
+Controller->
+    user
+        register
+        login
+    blog
+        create
+        update
+        delete
+        getMyBlog
+        getAllBlog
+        getBlogCatogory
+    comment
+        create comment
+        delete comment
+        get comment
+Schema->
+    user
+        name
+        email
+        password
+    blog
+        category
+        title
+        image
+        author: user type
+        create date:
+        likes:0
+        dislikes:0
+        update date:
+        comment:{
+            name:
+            text:
+        }
+    comment
+        userObjectid
+        comment date
+        comment text
+
+**********Frontend*******
+
+Component->
+    BlogCard(1 card)
+        picture
+        author name
+        catogory name
+        little bit text of blog
+        likes
+        dislikes
+    Header(1 navbar)
+        Blog Application written
+        Logout button
+    Footer
+        my email
+        my linkedin
+
+Page->
+    Main Page
+        ------------------------Header--------------------
+        ---category---|---------Image BG------------------
+        ----MyBlog----| blog card
+        ----All Blog--| |------|
+        ---category1--| |------|       
+        -----------------------Footer---------------------
+    Blog Page (open after click)
+        ------------------------Header--------------------
+        
+
+*****************      Redux       ***************
+
+This is how redux work
+
+ui action ko trigger karega, action bheja jayega reducer ke paas, reducer update/fetch karega dat store se,
+store data ko state mein rakehga aur state define ui
+this is a cycle
+
+
+
+Example Syntax->
+    All About action
+        actionTypes.js
+            export const ADD_USER="ADD_USER"
+        --actions dir-- [ action creator, action controller]
+            userAction.js
+                //action creator
+                import ADD_USER from "./actionTypes"
+                const addUser=(user)=>{
+                    return {
+                        type: ADD_USER,
+                        payload: user
+                    }
+                }
+
+                //action controller
+
+                export const addUserFn=(user)=>{
+                    return async(dispatch)=>{
+                    try {
+                            
+                            const { data } = await axios({
+                                method: 'Post',
+                                url: url + "/api/addUser",
+                                data: user
+                            })
+                            console.log(data)
+                            dispatch(addUser(user))
+                        }
+                        catch (err) {
+                            dispatch(error(err.message));
+                        }
+                    }
+                }
+
+    All About Reducer
+        rootReducer.js
+            //to keep all reducer at one place
+            import {combineReducer} from "redux"
+            import userReducer from './userReducer"
+            const rootReducer=combineReducer({
+                user:userReducer
+            })
+            export default rootReducer
+
+        userReducer.js
+            //to manage user action 
+            import ADD_USER from "./actionTypes"
+            const initialState=[]
+            const userReducer=(state=initialState,action)=>{
+                switch (action.type){
+                    case ADD_USER:{
+                        return {
+                            user:[...state,payload.user]
+                            //whatever we want to return
+                        }
+                    }
+                }
+            }
+            export default userReducer
+    All About store
+        store.js //main file to create store
+            import { createStore, applyMiddleware, compose } from 'redux';
+            import thunk from 'redux-thunk';
+            import rootReducer from './reducer/rootReducer';
+
+            const initialState = {};
+
+            const middleware = [thunk];
+
+            const store = createStore(
+                rootReducer,
+                initialState,
+                //if we not use dev tool then we can remove compose or can keep
+                compose(
+                    applyMiddleware(...middleware)
+                    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+                )
+            );
+
+            export default store;
+    
+    All About Using it in react
+        // to provider my store 
+        index.js
+            import {Provider} from "redux"
+            //Wrap with Provider
+            <Provider store={store}>
+            ....
+            </Provider>
+    
+    All about useSelector hook from react redux
+        const user=useSelector(store=>store.user)
+        //now we have user data
+
+    All about useDispatch hook from react redux
+        const dispatch=useDispatch()
+        //this give me dispatch fn
+
+        const submitHandler = (event) => {
+            event.preventDefault
+            const user={
+                name,
+                email,
+                password
+            }
+            dispatch(addUserFn(user)) 
+            history.push('/')
+        }
+
+
+
+
+
+
+
+        
+
+
+
+
+        
