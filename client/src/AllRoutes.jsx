@@ -4,7 +4,7 @@ import LoginSignup from "./pages/LoginSignup";
 const AllRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<LoginSignup />} />
+      <Route path="" element={<LoginSignup />} />
     </Routes>
   );
 };

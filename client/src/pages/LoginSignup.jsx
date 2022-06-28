@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
-import classes from "./Login.module.css";
+import { GoogleLogin } from "react-google-login";
+import classes from "./LoginSignup.module.css";
+
 const LoginSignup = () => {
   const [toggle, setToggle] = useState(false);
+  const CLIENT_ID =
+    "218738698611-eu5lg0nrfjn01a2v5m9omh7av29rhiv9.apps.googleusercontent.com";
   const handleToggle = () => {
     setToggle(toggle ? false : true);
   };
+
+  const responseSuccessGoogle = (response) => {
+    console.log("Success", response);
+  };
+
+  const responseErrorGoogle = (response) => {
+    console.log("Error", response);
+  };
+
   return (
     <>
       <div className={classes.centerCard}>
         <Container className="d-flex justify-content-center align-item-center">
           <Card border="dark" style={{ width: "20rem" }}>
+            <Card.Title className="mt-3 mx-5">Welcome to BlogDunia</Card.Title>
             <Card.Body>
               {toggle ? (
                 <>
-                  <Form>
+                  <Form noValidate>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label>Email address</Form.Label>
                       <Form.Control type="email" placeholder="Enter email" />
@@ -30,16 +44,15 @@ const LoginSignup = () => {
                       </Button>
                     </div>
                   </Form>
-                  <div className="d-grid gap-2">
-                    <Button className="mt-3 block-button" variant="secondary">
-                      <span className={classes.googleicon}>
-                        <img
-                          src="https://img.icons8.com/color/16/000000/google-logo.png"
-                          alt=""
-                        />
-                      </span>
-                      Login with Google
-                    </Button>
+                  <div className="d-grid gap-2 mt-3">
+                    <GoogleLogin
+                      className={classes.googlebtn}
+                      clientId={CLIENT_ID}
+                      buttonText="Login with Google"
+                      onSuccess={responseSuccessGoogle}
+                      onFailure={responseErrorGoogle}
+                      cookiePolicy={"single_host_origin"}
+                    />
                   </div>
                   <p onClick={handleToggle} className={classes.toggle}>
                     New to BlogDunia
@@ -67,16 +80,15 @@ const LoginSignup = () => {
                       </Button>
                     </div>
                   </Form>
-                  <div className="d-grid gap-2">
-                    <Button className="mt-3 block-button" variant="secondary">
-                      <span className={classes.googleicon}>
-                        <img
-                          src="https://img.icons8.com/color/16/000000/google-logo.png"
-                          alt=""
-                        />
-                      </span>
-                      SignUp with Google
-                    </Button>
+                  <div className="d-grid gap-2 mt-3">
+                    <GoogleLogin
+                      className={classes.googlebtn}
+                      clientId={CLIENT_ID}
+                      buttonText="Signup with Google"
+                      onSuccess={responseSuccessGoogle}
+                      onFailure={responseErrorGoogle}
+                      cookiePolicy={"single_host_origin"}
+                    />
                   </div>
                   <p onClick={handleToggle} className={classes.toggle}>
                     Already have account
