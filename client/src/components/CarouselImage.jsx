@@ -2,17 +2,15 @@ import React from "react";
 import { Carousel, Container } from "react-bootstrap";
 import bannerImage from "../static/bannerImage.jpeg";
 import classes from "./CarouselImage.module.css";
-const CarouselImage = () => {
+const CarouselImage = ({ images }) => {
   return (
     <>
       <Carousel>
-        <Carousel.Item>
-          <img
-            className={classes.blogimage}
-            src={bannerImage}
-            alt="First slide"
-          />
-        </Carousel.Item>
+        {images.map((image) => (
+          <Carousel.Item>
+            <img className={classes.blogimage} src={image} alt="First slide" />
+          </Carousel.Item>
+        ))}
       </Carousel>
     </>
   );
