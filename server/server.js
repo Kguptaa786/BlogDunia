@@ -11,8 +11,12 @@ const userRoutes = require("./routes/userRoutes");
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.get("/aaa", (req, res) => {
+  console.log(req.user);
+});
 
 app.use(passport.initialize());
+require("./utils/passport-jwt");
 
 app.use(userRoutes);
 

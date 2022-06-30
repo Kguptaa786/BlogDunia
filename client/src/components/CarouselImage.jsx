@@ -1,8 +1,10 @@
 import React from "react";
-import { Carousel, Container } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import bannerImage from "../static/bannerImage.jpeg";
 import classes from "./CarouselImage.module.css";
 const CarouselImage = ({ images }) => {
+  images = images.length === 0 ? [...images, bannerImage] : images;
+
   return (
     <>
       <Carousel>

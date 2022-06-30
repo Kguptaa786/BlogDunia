@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const { login, register } = require("../controllers/userController");
+const { login, register, d } = require("../controllers/userController");
 
 router.get(
   "/auth/google",

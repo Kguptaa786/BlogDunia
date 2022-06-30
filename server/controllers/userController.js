@@ -22,9 +22,13 @@ module.exports = {
       }
       const token =
         "Bearer " +
-        jwt.sign({ name: user.name, email: user.email }, secretOrKey, {
-          expiresIn: "1d",
-        });
+        jwt.sign(
+          { userId: user._id, name: user.name, email: user.email },
+          secretOrKey,
+          {
+            expiresIn: "1d",
+          }
+        );
       return res.status(200).json({
         success: true,
         token: token,

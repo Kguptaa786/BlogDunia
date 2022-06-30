@@ -11,7 +11,7 @@ import {
   Col,
 } from "react-bootstrap";
 
-const CreateBlog = () => {
+const UpdateBlog = () => {
   const images = [];
   const handleBlogSubmit = () => {};
   return (
@@ -19,7 +19,7 @@ const CreateBlog = () => {
       <Header />
       <CarouselImage images={images} />
       <Container className="my-2">
-        <h3> CREATE BLOG</h3>
+        <h3>UPDATE BLOG</h3>
         <hr />
         <Form onSubmit={handleBlogSubmit}>
           <Row>
@@ -52,7 +52,7 @@ const CreateBlog = () => {
             />
           </FloatingLabel>
           <div className="d-flex justify-content-end mt-3">
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Update</Button>
           </div>
         </Form>
       </Container>
@@ -61,4 +61,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default UpdateBlog;

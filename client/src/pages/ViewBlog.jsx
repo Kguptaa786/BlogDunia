@@ -46,11 +46,13 @@ const ViewBlog = () => {
             </Form>
           </Col>
           <Col>
+            <h5>All Comments</h5>
+            <hr />
             {comments.map(({ text, user }) => (
               <div className="border border-dark rounded mb-2 d-flex justify-content-between">
                 <p className="mx-2">{text}</p>
                 {user === blog.authorName ? (
-                  <Button variant="danger" className="my-1">
+                  <Button variant="danger" className="my-1 mx-2">
                     <DeleteBtnIcon />
                   </Button>
                 ) : (
