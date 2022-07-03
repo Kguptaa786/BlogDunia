@@ -1,12 +1,14 @@
 import React from "react";
 import { Card, ListGroup } from "react-bootstrap";
+import bannerImage from "../static/bannerImage.jpeg";
 
-const BlogCard = () => {
+const BlogCard = ({ blog }) => {
+  console.log(blog);
   return (
     <Card style={{ width: "20rem" }}>
-      <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+      <Card.Img variant="top" src={bannerImage} />
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
+        <Card.Title>{blog.title}</Card.Title>
         <Card.Text>
           Some quick example text to build on the card title and make up the
           bulk of the card's content.

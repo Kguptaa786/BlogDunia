@@ -1,7 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Nav, Navbar, Container } from "react-bootstrap";
 import bdicon from "../static/bdicon.jpg";
+import { logoutUserAPI } from "../redux/action/userAction";
 const Header = () => {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logoutUserAPI());
+  };
   return (
     <>
       <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
@@ -19,8 +25,10 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Logout</Nav.Link>
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/account" onClick={handleLogout}>
+                Logout
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -1,8 +1,17 @@
 import React from "react";
-import { Form, Button, Col, Alert, Container, Row } from "react-bootstrap";
-import CarouselImage from "../components/CarouselImage";
+import {
+  Carousel,
+  Form,
+  Button,
+  Col,
+  Alert,
+  Container,
+  Row,
+} from "react-bootstrap";
+import bannerImage from "../static/bannerImage.jpeg";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import classes from "../components/CarouselImage.module.css";
 import { blog } from "../static/blog";
 import { comments } from "../static/comments";
 import DeleteBtnIcon from "../components/DeleteBtnIcon";
@@ -11,7 +20,15 @@ const ViewBlog = () => {
   return (
     <>
       <Header />
-      <CarouselImage images={blog.images} />
+      <Carousel>
+        <Carousel.Item>
+          <img
+            className={classes.blogimage}
+            src={blog.image ? blog.image : bannerImage}
+            alt="First slide"
+          />
+        </Carousel.Item>
+      </Carousel>
       <Container>
         <div className="d-flex justify-content-between my-3">
           <h4>Category: {blog.category}</h4>

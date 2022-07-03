@@ -1,17 +1,38 @@
 const Blog = require("../models/blog");
+const mongoose = require("mongoose");
+const grid = require("gridfs-stream");
+const url = "http://localhost:8000";
+
+//to get image from mongodb (mongodb store image in chunks)
+let gfs, gridfsBucket;
+const conn = mongoose.connection;
+conn.once("open", () => {
+  gridfsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "fs",
+  });
+  gfs = grid(conn.db, mongoose.mongo);
+  gfs.collection("fs");
+});
+
 module.exports = {
   createBlog: async (req, res) => {
     try {
-      const { category, title, userId, images, content } = req.body;
+      const { category, title, userId, image, content } = req.body;
+      if (!title || !content) {
+        return res.status(400).json({
+          success: false,
+          message: "Empty blog not allowed...",
+        });
+      }
       const newBlog = new Blog({
         category,
         title,
         author: userId,
-        images,
+        image,
         content,
       });
       await newBlog.save();
-      return res.json({
+      return res.status(200).json({
         success: true,
         message: "Created successfully",
       });
@@ -22,10 +43,10 @@ module.exports = {
   updateBlog: async (req, res) => {
     try {
       const { blogId } = req.params;
-      const { category, title, images, content } = req.body;
+      const { category, title, image, content } = req.body;
       await Blog.findOneAndUpdate(
         { _id: blogId },
-        { category, title, images, content }
+        { category, title, image, content }
       );
       const updatedBlog = Blog.findOne({ _id: blogId });
       return res.json({
@@ -62,10 +83,15 @@ module.exports = {
       console.log(error);
     }
   },
-  getBlogByCateogry: async (req, res) => {
+  getBlogByCategory: async (req, res) => {
     try {
-      const { category } = req.query;
-      const blogs = await Blog.find({ category });
+      const { category } = req.params;
+      let blogs;
+      if (category === "All") {
+        blogs = await Blog.find({});
+      } else {
+        blogs = await Blog.find({ category });
+      }
       if (!blogs) {
         return res.json({
           success: false,
@@ -81,39 +107,28 @@ module.exports = {
       console.log(error);
     }
   },
-  getMyBlog: async (req, res) => {
+  uploadImage: (req, res) => {
     try {
-      const userId = req.user._id;
-      const blogs = await Blog.find({ author: userId });
-      if (!blogs) {
-        return res.json({
-          success: false,
-          message: "No blog found",
-        });
+      if (!req.file) {
+        return res
+          .status(400)
+          .json({ success: false, message: "file not found" });
       }
-      return res.json({
+      const imageUrl = `${url}/file/${req.file.filename}`;
+      return res.status(200).json({
         success: true,
-        blogs: blogs,
-        message: `Your blogs....`,
+        image: imageUrl,
+        message: "Image upload successfully",
       });
     } catch (error) {
       console.log(error);
     }
   },
-  getAllBlog: async (req, res) => {
+  getImage: async (req, res) => {
     try {
-      const blogs = await Blog.find({});
-      if (!blogs) {
-        return res.json({
-          success: false,
-          message: "No blog found",
-        });
-      }
-      return res.json({
-        success: true,
-        blogs: blogs,
-        message: "All blogs.....",
-      });
+      const file = await gfs.files.findOne({ filename: req.params.filename });
+      const readStream = gridfsBucket.openDownloadStream(file._id);
+      readStream.pipe(res);
     } catch (error) {
       console.log(error);
     }

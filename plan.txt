@@ -142,7 +142,7 @@ Example Syntax->
     All About Reducer
         rootReducer.js
             //to keep all reducer at one place
-            import {combineReducer} from "redux"
+            import {combineReducers} from "redux"
             import userReducer from './userReducer"
             const rootReducer=combineReducer({
                 user:userReducer
@@ -189,7 +189,7 @@ Example Syntax->
     All About Using it in react
         // to provider my store 
         index.js
-            import {Provider} from "redux"
+            import {Provider} from "react-redux"
             //Wrap with Provider
             <Provider store={store}>
             ....

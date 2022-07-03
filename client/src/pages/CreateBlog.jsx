@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import CarouselImage from "../components/CarouselImage";
+import AddBtnIcon from "../components/AddBtnIcon";
+import bannerImage from "../static/bannerImage.jpeg";
+import classes from "../components/CarouselImage.module.css";
 import {
   Button,
   Container,
@@ -9,36 +12,89 @@ import {
   Form,
   Row,
   Col,
+  Carousel,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { createBlogAPI } from "../redux/action/blogAction";
+import { uploadImageAPI } from "../service/api";
 
+const initialBlog = {
+  title: "",
+  category: "ALL",
+  content: "",
+  image: "",
+  author: "",
+};
 const CreateBlog = () => {
-  const images = [];
-  const handleBlogSubmit = () => {};
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [blog, setBlog] = useState(initialBlog);
+  const [file, setFile] = useState("");
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const getImage = async () => {
+      if (file) {
+        const data = new FormData();
+        data.append("name", file.name);
+        data.append("file", file);
+        blog.image = await uploadImageAPI(data);
+      }
+    };
+    getImage();
+  }, [file, blog]);
+
+  const handleBlogSubmit = (event) => {
+    event.preventDefault();
+    blog.category = location.search?.split("=")[1] || "All";
+    dispatch(createBlogAPI(blog));
+    navigate("/");
+  };
+
+  const handleChange = (event) => {
+    setBlog({ ...blog, [event.target.name]: event.target.value });
+  };
+
   return (
     <>
       <Header />
-      <CarouselImage images={images} />
-      <Container className="my-2">
-        <h3> CREATE BLOG</h3>
-        <hr />
+      <Carousel>
+        <Carousel.Item>
+          <img
+            className={classes.blogimage}
+            src={blog.image ? blog.image : bannerImage}
+            alt="First slide"
+          />
+        </Carousel.Item>
+      </Carousel>
+      <Container className="my-3">
         <Form onSubmit={handleBlogSubmit}>
           <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control type="text" placeholder="Enter Title" />
-              </Form.Group>
+            <Col lg={1}>
+              <label
+                htmlFor="fileinput"
+                style={{ marginLeft: "1rem", cursor: "pointer" }}
+              >
+                <AddBtnIcon />
+              </label>
+              <input
+                id="fileinput"
+                type="file"
+                onChange={(e) => setFile(e.target.files[0])}
+                style={{ display: "none" }}
+                accept=".jpeg,.jpg,.png"
+              />
             </Col>
-            <Col>
+            <Col lg={11}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control type="text" placeholder="Enter Category" />
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Title"
+                  name="title"
+                  onChange={(e) => handleChange(e)}
+                />
               </Form.Group>
-            </Col>
-            <Col>
-              <Form>
-                <Form.Group controlId="formFileMultiple" className="mb-3">
-                  <Form.Control type="file" multiple />
-                </Form.Group>
-              </Form>
             </Col>
           </Row>
           <FloatingLabel
@@ -46,6 +102,8 @@ const CreateBlog = () => {
             label="Write your blog....."
           >
             <Form.Control
+              onChange={(e) => handleChange(e)}
+              name="content"
               as="textarea"
               placeholder="Leave a comment here"
               style={{ height: "200px" }}

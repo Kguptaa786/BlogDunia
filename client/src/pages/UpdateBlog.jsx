@@ -1,9 +1,11 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import CarouselImage from "../components/CarouselImage";
+import bannerImage from "../static/bannerImage.jpeg";
+import classes from "../components/CarouselImage.module.css";
 import {
   Button,
+  Carousel,
   Container,
   FloatingLabel,
   Form,
@@ -12,12 +14,21 @@ import {
 } from "react-bootstrap";
 
 const UpdateBlog = () => {
+  const blog = {};
   const images = [];
   const handleBlogSubmit = () => {};
   return (
     <>
       <Header />
-      <CarouselImage images={images} />
+      <Carousel>
+        <Carousel.Item>
+          <img
+            className={classes.blogimage}
+            src={blog.image ? blog.image : bannerImage}
+            alt="First slide"
+          />
+        </Carousel.Item>
+      </Carousel>
       <Container className="my-2">
         <h3>UPDATE BLOG</h3>
         <hr />

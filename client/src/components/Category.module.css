@@ -1,5 +1,10 @@
 .container {
-  margin: 0.3rem;
+  margin: 5px 10px;
   border: 1px solid black;
   border-radius: 10px;
+}
+
+.createBtn {
+  margin: 5px 80px;
+  padding: 2px 80px;
 }
