@@ -98,6 +98,7 @@ module.exports = {
           message: "No blog found",
         });
       }
+
       return res.json({
         success: true,
         blogs: blogs,

@@ -1,35 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
-import { Row, Col, Button, Table, Card, ListGroup } from "react-bootstrap";
+import { Row, Col, Button, Table } from "react-bootstrap";
 import Banner from "../components/Banner";
-import BlogCard from "../components/BlogCard";
 
 import Footer from "../components/Footer";
 import { blogCategory } from "../static/blogCategory";
 import classes from "../components/Category.module.css";
 import Header from "../components/Header";
-import { getBlogByCategoryAPI } from "../redux/action/blogAction";
-import { useEffect } from "react";
-import { useCallback } from "react";
-import isEmpty from "../utils/isEmpty";
+import Posts from "./Post/Posts";
 
 const MainPage = () => {
-  const blogs = useSelector((store) => store.blogs);
-  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
-
-  const category = searchParams.get("category")
-    ? searchParams.get("category")
-    : "All";
-  const handleCategory = useCallback(() => {
-    dispatch(getBlogByCategoryAPI(category));
-  }, [category, dispatch]);
-
-  useEffect(() => {
-    handleCategory();
-  }, [handleCategory]);
-
+  const category = searchParams.get("category");
   return (
     <>
       <Header />
@@ -56,7 +39,6 @@ const MainPage = () => {
                       <Link
                         to={`/?category=${category.name}`}
                         value={category.name}
-                        onChange={handleCategory}
                         style={{ textDecoration: "none", color: "black" }}
                       >
                         {category.name}
@@ -69,17 +51,7 @@ const MainPage = () => {
           </div>
         </Col>
         <Col lg={9} sm={12} className="d-flex justify-content-center">
-          <Row>
-            {blogs ? (
-              blogs.map((blog) => (
-                <Col lg={3} sm={12} className="mx-4 mt-2">
-                  <BlogCard blog={blog} />
-                </Col>
-              ))
-            ) : (
-              <p>No blog Found</p>
-            )}
-          </Row>
+          <Posts />
         </Col>
       </Row>
       <div className="mt-2">

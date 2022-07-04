@@ -10,6 +10,9 @@ const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 
+//db connection
+require("./utils/dbconnection");
+
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -23,9 +26,6 @@ require("./utils/passport-jwt");
 app.use(userRoutes);
 app.use(blogRoutes);
 app.use(commentRoutes);
-
-//db connection
-require("./utils/dbconnection");
 
 app.listen(PORT, () => {
   console.log(`Listening to port ${PORT}`);
