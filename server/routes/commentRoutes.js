@@ -14,13 +14,13 @@ router.post(
 );
 
 router.get(
-  "/comments/:id",
+  "/comments/:blogId",
   passport.authenticate("jwt", { session: false }),
   getAllComments
 );
 
 router.delete(
-  "/comment/delete/:id",
+  "/comment/delete/:commentId",
   passport.authenticate("jwt", { session: false }),
   deleteComment
 );

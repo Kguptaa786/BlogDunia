@@ -2,15 +2,15 @@ const Comment = require("../models/comment");
 module.exports = {
   postComment: async (req, res) => {
     try {
-      const { blogId, text } = req.params;
-      const userId = req.user.userId;
+      const { blogId, text, userId, userName } = req.body;
       const newComment = await new Comment({
         blog: blogId,
         user: userId,
         text,
+        userName,
       });
       await newComment.save();
-      return res.json({
+      return res.status(200).json({
         success: true,
         message: "Commented successfully",
       });
@@ -22,13 +22,7 @@ module.exports = {
     try {
       const { blogId } = req.params;
       const comments = await Comment.find({ blog: blogId });
-      if (!comment) {
-        return res.json({
-          success: false,
-          message: "No comment",
-        });
-      }
-      return res.json({
+      return res.status(200).json({
         success: true,
         comments: comments,
         message: "All comments are..",
@@ -41,7 +35,7 @@ module.exports = {
     try {
       const { commentId } = req.params;
       await Comment.findByIdAndDelete({ _id: commentId });
-      return res.json({
+      return res.status(200).json({
         success: true,
         message: "Comment deleted",
       });

@@ -9,24 +9,21 @@ import {
 
 const url = "http://localhost:8000";
 
-const createBlog = (blog) => {
+const createBlog = () => {
   return {
     type: CREATE_BLOG,
-    payload: blog,
+  };
+};
+
+const deleteBlog = () => {
+  return {
+    type: DELETE_BLOG,
   };
 };
 
 const updateBlog = (updatedBlog) => {
   return {
     type: UPDATE_BLOG,
-    payload: updatedBlog,
-  };
-};
-
-const deleteBlog = (blogId) => {
-  return {
-    type: DELETE_BLOG,
-    payload: blogId,
   };
 };
 
@@ -44,10 +41,9 @@ const getBlogByCategory = (blogs) => {
   };
 };
 
-//API which dispatch action creator
-
+//interceptor
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
-
+//API which dispatch action creator
 export const createBlogAPI = (blog) => {
   return async (dispatch) => {
     try {
@@ -56,7 +52,36 @@ export const createBlogAPI = (blog) => {
         url: url + "/create",
         data: blog,
       });
-      dispatch(createBlog(blog));
+      dispatch(createBlog());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteBlogAPI = (blogId) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios({
+        method: "delete",
+        url: url + `/delete/${blogId}`,
+      });
+      dispatch(deleteBlog());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const detailBlogAPI = (blogId) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios({
+        method: "get",
+        url: url + `/detail/${blogId}`,
+      });
+      const blog = res.data.blog;
+      dispatch(detailBlog(blog));
     } catch (error) {
       console.log(error);
     }

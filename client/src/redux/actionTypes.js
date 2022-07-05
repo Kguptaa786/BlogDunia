@@ -14,7 +14,7 @@ export const LOGOUT_USER = "LOGOUT_USER";
 //comment constants
 export const POST_COMMENT = "POST_COMMENT";
 export const DELETE_COMMENT = "DELETE_BLOG";
-export const GET_BLOG_COMMENT = "GET_BLOG_COMMENT";
+export const GET_BLOG_COMMENTS = "GET_BLOG_COMMENTS";
 
 //error constants
 export const ERROR = "ERROR";

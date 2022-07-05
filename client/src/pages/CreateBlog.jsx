@@ -14,40 +14,56 @@ import {
   Col,
   Carousel,
 } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createBlogAPI } from "../redux/action/blogAction";
 import { uploadImageAPI } from "../service/api";
+import { getUserDetail } from "../utils/getUserDetail";
 
 const initialBlog = {
   title: "",
-  category: "ALL",
+  category: "",
   content: "",
   image: "",
-  author: "",
+  user: "",
+  userName: "",
 };
+
+let imgUrl = "";
+let user;
 const CreateBlog = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [blog, setBlog] = useState(initialBlog);
   const [file, setFile] = useState("");
-  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    user = getUserDetail();
+  }, []);
 
   useEffect(() => {
     const getImage = async () => {
       if (file) {
+        setIsLoading(true);
         const data = new FormData();
         data.append("name", file.name);
         data.append("file", file);
-        blog.image = await uploadImageAPI(data);
+        imgUrl = await uploadImageAPI(data);
+        if (imgUrl && imgUrl.length > 0) {
+          setIsLoading(false);
+        }
       }
     };
     getImage();
-  }, [file, blog]);
+  }, [file]);
 
   const handleBlogSubmit = (event) => {
     event.preventDefault();
+    blog.image = imgUrl;
     blog.category = location.search?.split("=")[1] || "All";
+    blog.user = user.userId;
+    blog.userName = user.name;
     dispatch(createBlogAPI(blog));
     navigate("/");
   };
@@ -110,7 +126,11 @@ const CreateBlog = () => {
             />
           </FloatingLabel>
           <div className="d-flex justify-content-end mt-3">
-            <Button type="submit">Submit</Button>
+            {!isLoading ? (
+              <Button type="submit">Submit</Button>
+            ) : (
+              <p>Image is uploading...</p>
+            )}
           </div>
         </Form>
       </Container>

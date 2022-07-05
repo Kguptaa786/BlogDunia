@@ -1,4 +1,5 @@
 const Blog = require("../models/blog");
+const Comment = require("../models/comment");
 const mongoose = require("mongoose");
 const grid = require("gridfs-stream");
 const url = "http://localhost:8000";
@@ -17,7 +18,7 @@ conn.once("open", () => {
 module.exports = {
   createBlog: async (req, res) => {
     try {
-      const { category, title, userId, image, content } = req.body;
+      const { category, title, user, image, content, userName } = req.body;
       if (!title || !content) {
         return res.status(400).json({
           success: false,
@@ -27,7 +28,8 @@ module.exports = {
       const newBlog = new Blog({
         category,
         title,
-        author: userId,
+        user,
+        userName,
         image,
         content,
       });
@@ -75,6 +77,7 @@ module.exports = {
     try {
       const { blogId } = req.params;
       await Blog.findByIdAndDelete({ _id: blogId });
+      await Comment.find({ blog: blogId }).deleteMany();
       return res.json({
         success: true,
         message: "Deleted successfully",

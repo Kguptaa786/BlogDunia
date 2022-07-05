@@ -1,18 +1,20 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const img = "";
-
 const blogSchema = new Schema({
   category: {
     type: String,
-    default: "all",
+    default: "All",
   },
   title: {
     type: String,
     required: true,
   },
-  author: {
+  userName: {
+    type: String,
+    required: true,
+  },
+  user: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
@@ -22,7 +24,6 @@ const blogSchema = new Schema({
   },
   image: {
     type: String,
-    default: img,
   },
   date: {
     type: Date,

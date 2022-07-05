@@ -50,8 +50,10 @@ const MainPage = () => {
             </Table>
           </div>
         </Col>
-        <Col lg={9} sm={12} className="d-flex justify-content-center">
-          <Posts />
+        <Col lg={9} sm={12}>
+          <Row>
+            <Posts />
+          </Row>
         </Col>
       </Row>
       <div className="mt-2">

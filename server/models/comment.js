@@ -12,6 +12,11 @@ const commentSchema = new Schema({
   },
   text: {
     type: String,
+    required: true,
+  },
+  userName: {
+    type: String,
+    required: true,
   },
 });
 

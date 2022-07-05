@@ -6,10 +6,10 @@ import { Col } from "react-bootstrap";
 import Post from "./Post";
 
 const Posts = () => {
-  const blogs = useSelector((store) => store.blogs);
+  const store = useSelector((store) => store);
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
-
+  let blogs = store.blogs;
   const category = searchParams.get("category")
     ? searchParams.get("category")
     : "All";
@@ -25,10 +25,16 @@ const Posts = () => {
     <>
       {blogs?.length ? (
         blogs.map((blog) => (
-          <Col lg={3} sm={4} xs={12}>
+          <Col
+            lg={4}
+            sm={12}
+            md={6}
+            className="d-flex justify-content-center my-3"
+          >
             <Link
+              key={blog._id}
               style={{ textDecoration: "none", color: "inherit" }}
-              to={`details/${blog._id}`}
+              to={`/detail/${blog._id}`}
             >
               <Post blog={blog} />
             </Link>
