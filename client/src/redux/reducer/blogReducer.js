@@ -8,7 +8,7 @@ const blogReducer = (state = "", action) => {
       return state;
     }
     case UPDATE_BLOG: {
-      return action.payload;
+      return state;
     }
     default: {
       return state;

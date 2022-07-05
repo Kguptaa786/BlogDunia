@@ -26,13 +26,13 @@ const Posts = () => {
       {blogs?.length ? (
         blogs.map((blog) => (
           <Col
+            key={blog._id}
             lg={4}
             sm={12}
             md={6}
             className="d-flex justify-content-center my-3"
           >
             <Link
-              key={blog._id}
               style={{ textDecoration: "none", color: "inherit" }}
               to={`/detail/${blog._id}`}
             >

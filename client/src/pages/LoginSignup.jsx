@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import classes from "./LoginSignup.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUserAPI, registerUserAPI } from "../redux/action/userAction";
 
 const LoginSignup = () => {

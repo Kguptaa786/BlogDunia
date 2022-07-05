@@ -45,15 +45,10 @@ module.exports = {
   updateBlog: async (req, res) => {
     try {
       const { blogId } = req.params;
-      const { category, title, image, content } = req.body;
-      await Blog.findOneAndUpdate(
-        { _id: blogId },
-        { category, title, image, content }
-      );
-      const updatedBlog = Blog.findOne({ _id: blogId });
+      const { title, image, content } = req.body;
+      await Blog.findOneAndUpdate({ _id: blogId }, { title, image, content });
       return res.json({
         success: true,
-        blog: updatedBlog,
         message: "Update successfully",
       });
     } catch (error) {

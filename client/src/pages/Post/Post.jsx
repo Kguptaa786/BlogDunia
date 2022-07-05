@@ -20,10 +20,10 @@ const Post = ({ blog }) => {
           <u>{blog.title}</u>
         </Card.Title>
         <Card.Text className="d-flex justify-content-center">
-          {addEllipsis(blog.content, 50)}
+          {addEllipsis(blog.content, 100)}
         </Card.Text>
         <Card.Text className="d-flex justify-content-center">
-          by- {blog.userName}
+          <b>by- {blog.userName}</b>
         </Card.Text>
       </Card.Body>
     </Card>

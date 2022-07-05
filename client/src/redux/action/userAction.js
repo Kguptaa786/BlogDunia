@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { LOGIN_USER, LOGOUT_USER, REGISTER_USER } from "../actionTypes";
+import getMessage from "./messageAction";
 
 const url = "http://localhost:8000";
 
@@ -54,7 +55,8 @@ export const loginUserAPI = (user) => {
       localStorage.setItem("email", decoded.email);
       dispatch(loginUser(decoded));
     } catch (error) {
-      console.log(error);
+      let message = error.response.data.message;
+      dispatch(getMessage(message));
     }
   };
 };
@@ -62,6 +64,9 @@ export const loginUserAPI = (user) => {
 export const logoutUserAPI = () => {
   return async (dispatch) => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
     dispatch(logoutUser());
   };
 };

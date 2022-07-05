@@ -17,4 +17,4 @@ export const DELETE_COMMENT = "DELETE_BLOG";
 export const GET_BLOG_COMMENTS = "GET_BLOG_COMMENTS";
 
 //error constants
-export const ERROR = "ERROR";
+export const MESSAGE = "MESSAGE";

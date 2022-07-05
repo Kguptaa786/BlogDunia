@@ -6,5 +6,4 @@ export const blogCategory = [
   { idx: 6, name: "Lifestyle" },
   { idx: 7, name: "Food" },
   { idx: 8, name: "Affiliate" },
-  { idx: 9, name: "News" },
 ];

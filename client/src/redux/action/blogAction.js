@@ -21,7 +21,7 @@ const deleteBlog = () => {
   };
 };
 
-const updateBlog = (updatedBlog) => {
+const updateBlog = () => {
   return {
     type: UPDATE_BLOG,
   };
@@ -53,6 +53,21 @@ export const createBlogAPI = (blog) => {
         data: blog,
       });
       dispatch(createBlog());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateBlogAPI = (updatedBlog, blogId) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios({
+        method: "put",
+        url: url + `/update/${blogId}`,
+        data: updatedBlog,
+      });
+      dispatch(updateBlog());
     } catch (error) {
       console.log(error);
     }

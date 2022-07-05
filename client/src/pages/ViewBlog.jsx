@@ -12,16 +12,15 @@ import bannerImage from "../static/bannerImage.jpeg";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import classes from "../components/CarouselImage.module.css";
-import { blog } from "../static/blog";
-import { comments } from "../static/comments";
 import DeleteBtnIcon from "../components/DeleteBtnIcon";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { deleteBlogAPI, detailBlogAPI } from "../redux/action/blogAction";
 import { getUserDetail } from "../utils/getUserDetail";
 import { useState } from "react";
 import {
+  deleteCommentAPI,
   getBlogCommentsAPI,
   postCommentAPI,
 } from "../redux/action/commentAction";
@@ -65,17 +64,17 @@ const ViewBlog = () => {
     //api call
     dispatch(postCommentAPI(comment));
     setCommentText("");
+    // window.location.reload();
   };
 
-  const handleCommentDelete = () => {};
+  const handleCommentDelete = (commentId) => {
+    dispatch(deleteCommentAPI(commentId));
+    // window.location.reload();
+  };
 
   const handleBlogDelete = () => {
     dispatch(deleteBlogAPI(blogId));
     navigate("/");
-  };
-
-  const handleBlogUpdate = () => {
-    // dispatch()
   };
 
   return (
@@ -95,9 +94,9 @@ const ViewBlog = () => {
           <h4>Category: {blog.category}</h4>
           {user && blog.user === user.userId ? (
             <span>
-              <Button variant="secondary" onClick={handleBlogUpdate}>
-                Update
-              </Button>
+              <Link to={`/update/${blogId}`}>
+                <Button variant="secondary">Update</Button>
+              </Link>
               <Button
                 variant="danger"
                 className="mx-3"
@@ -150,11 +149,11 @@ const ViewBlog = () => {
                   key={comment._id}
                 >
                   <p className="mx-2">{comment.text}</p>
-                  {comment.user === blog.user ? (
+                  {comment.user === user.userId ? (
                     <Button
                       variant="danger"
                       className="my-1 mx-2"
-                      onClick={handleCommentDelete}
+                      onClick={handleCommentDelete(comment._id)}
                     >
                       <DeleteBtnIcon />
                     </Button>

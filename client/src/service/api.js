@@ -14,3 +14,16 @@ export const uploadImageAPI = async (file) => {
     console.log(error);
   }
 };
+
+export const helperGetBlogDetail = async (blogId) => {
+  try {
+    const res = await axios({
+      method: "get",
+      url: url + `/detail/${blogId}`,
+    });
+    let blog = res.data.blog;
+    return blog;
+  } catch (error) {
+    console.log(error);
+  }
+};
