@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Nav, Navbar, Container } from "react-bootstrap";
@@ -7,15 +7,15 @@ import { logoutUserAPI } from "../redux/action/userAction";
 import { useEffect } from "react";
 import { getUserDetail } from "../utils/getUserDetail";
 
-let user;
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [user, setUser] = useState({});
   useEffect(() => {
-    user = getUserDetail();
+    let temp = getUserDetail();
+    setUser(temp);
   }, []);
-
+  console.log(user);
   const handleLogout = () => {
     dispatch(logoutUserAPI());
     navigate("/account");

@@ -51,6 +51,7 @@ const LoginSignup = () => {
                       <Form.Label>Email address</Form.Label>
                       <Form.Control
                         type="email"
+                        name="email"
                         placeholder="Enter email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -64,6 +65,7 @@ const LoginSignup = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        name="password"
                       />
                     </Form.Group>
                     <div className="d-grid gap-2">
@@ -84,6 +86,7 @@ const LoginSignup = () => {
                       <Form.Control
                         type="text"
                         placeholder="Name"
+                        name="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
@@ -92,6 +95,7 @@ const LoginSignup = () => {
                       <Form.Label>Email address</Form.Label>
                       <Form.Control
                         type="email"
+                        name="email"
                         placeholder="Enter email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -102,6 +106,7 @@ const LoginSignup = () => {
                       <Form.Label>Password</Form.Label>
                       <Form.Control
                         type="password"
+                        name="password"
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}

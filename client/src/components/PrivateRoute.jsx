@@ -1,13 +1,20 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-const useAuth = () => {
-  const token = localStorage.getItem("token");
-  return token && token.length;
-};
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const PrivateRoute = () => {
-  const isAuth = useAuth();
-  return isAuth ? <Outlet /> : <Navigate to="/account" />;
+const PrivateRoute = ({ Component }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+    }
+  });
+  return (
+    <>
+      <Component />
+    </>
+  );
 };
 
 export default PrivateRoute;

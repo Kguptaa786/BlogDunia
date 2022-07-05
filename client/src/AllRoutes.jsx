@@ -12,12 +12,16 @@ const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/account" element={<LoginSignup />} />
-      <Route element={<PrivateRoute />}>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/create" element={<CreateBlog />} />
-        <Route path="/detail/:blogId" element={<ViewBlog />} />
-        <Route path="/update/:blogId" element={<UpdateBlog />} />
-      </Route>
+      <Route path="/" element={<PrivateRoute Component={MainPage} />} />
+      <Route path="/create" element={<PrivateRoute Component={CreateBlog} />} />
+      <Route
+        path="/detail/:blogId"
+        element={<PrivateRoute Component={ViewBlog} />}
+      />
+      <Route
+        path="/update/:blogId"
+        element={<PrivateRoute Component={UpdateBlog} />}
+      />
     </Routes>
   );
 };
