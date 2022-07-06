@@ -6,6 +6,7 @@ import {
   GET_BLOG_BY_CATEGORY,
   UPDATE_BLOG,
 } from "../actionTypes";
+import getMessage from "./messageAction";
 
 const url = "http://localhost:8000";
 
@@ -53,8 +54,10 @@ export const createBlogAPI = (blog) => {
         data: blog,
       });
       dispatch(createBlog());
+      dispatch(getMessage(res.data.message));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      dispatch(getMessage(error.response.data.message));
     }
   };
 };

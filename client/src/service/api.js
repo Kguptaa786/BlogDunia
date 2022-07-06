@@ -27,3 +27,5 @@ export const helperGetBlogDetail = async (blogId) => {
     console.log(error);
   }
 };
+
+export const loginAPI = async (user) => {};

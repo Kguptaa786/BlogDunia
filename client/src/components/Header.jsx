@@ -15,7 +15,7 @@ const Header = () => {
     let temp = getUserDetail();
     setUser(temp);
   }, []);
-  console.log(user);
+
   const handleLogout = () => {
     dispatch(logoutUserAPI());
     navigate("/account");

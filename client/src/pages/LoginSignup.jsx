@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import classes from "./LoginSignup.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { loginUserAPI, registerUserAPI } from "../redux/action/userAction";
+import { useEffect } from "react";
 
 const LoginSignup = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const LoginSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggle, setToggle] = useState(false);
+  const status = useSelector((store) => store.message, shallowEqual);
 
   const handleToggle = () => {
     setToggle(toggle ? false : true);
@@ -25,6 +27,12 @@ const LoginSignup = () => {
       password,
     };
     dispatch(registerUserAPI(user));
+    if (status.success) {
+      status.message.length && window.alert(status.message);
+      setToggle(true);
+    } else {
+      status.message.length && window.alert(status.message);
+    }
   };
 
   const handleLogin = (event) => {
@@ -34,7 +42,12 @@ const LoginSignup = () => {
       password,
     };
     dispatch(loginUserAPI(user));
-    navigate("/");
+    if (status.success) {
+      status.message.length && window.alert(status.message);
+      navigate("/");
+    } else {
+      status.message.length && window.alert(status.message);
+    }
   };
 
   return (

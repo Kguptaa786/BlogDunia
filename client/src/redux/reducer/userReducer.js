@@ -3,7 +3,6 @@ import isEmpty from "../../utils/isEmpty";
 
 const initialState = {
   user: {},
-  isAuthenticated: false,
 };
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -14,7 +13,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
-        isAuthenticated: !isEmpty(action.payload),
       };
     }
     case LOGOUT_USER: {

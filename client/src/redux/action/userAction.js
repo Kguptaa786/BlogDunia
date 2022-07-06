@@ -33,8 +33,15 @@ export const registerUserAPI = (user) => {
         data: user,
       });
       dispatch(registerUser());
+      let status = { message: res.data.message, success: res.data.success };
+      dispatch(getMessage(status));
     } catch (error) {
-      console.log(error.message);
+      // console.log(error);
+      let status = {
+        message: error.response.data.message,
+        success: error.response.data.success,
+      };
+      dispatch(getMessage(status));
     }
   };
 };
@@ -42,21 +49,27 @@ export const registerUserAPI = (user) => {
 export const loginUserAPI = (user) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios({
+      const res = await axios({
         method: "post",
         url: url + "/login",
         data: user,
       });
-      const { token } = data;
+      const token = res.data.token;
       localStorage.setItem("token", token);
       const decoded = jwt_decode(token);
       localStorage.setItem("userId", decoded.userId);
       localStorage.setItem("name", decoded.name);
       localStorage.setItem("email", decoded.email);
       dispatch(loginUser(decoded));
+      let status = { message: res.data.message, success: res.data.success };
+      dispatch(getMessage(status));
     } catch (error) {
-      let message = error.response.data.message;
-      dispatch(getMessage(message));
+      // console.log(error)
+      let status = {
+        message: error.response.data.message,
+        success: error.response.data.success,
+      };
+      dispatch(getMessage(status));
     }
   };
 };

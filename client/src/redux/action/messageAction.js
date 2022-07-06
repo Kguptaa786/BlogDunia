@@ -1,9 +1,9 @@
 import { MESSAGE } from "../actionTypes";
 
-const getMessage = (message) => {
+const getMessage = (status) => {
   return {
     type: MESSAGE,
-    payload: message,
+    payload: status,
   };
 };
 

@@ -69,7 +69,6 @@ const ViewBlog = () => {
 
   const handleCommentDelete = (commentId) => {
     dispatch(deleteCommentAPI(commentId));
-    // window.location.reload();
   };
 
   const handleBlogDelete = () => {

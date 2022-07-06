@@ -3,7 +3,6 @@ import {
   POST_COMMENT,
   GET_BLOG_COMMENTS,
 } from "../actionTypes";
-
 const commentReducer = (state = "", action) => {
   switch (action.type) {
     case DELETE_COMMENT: {

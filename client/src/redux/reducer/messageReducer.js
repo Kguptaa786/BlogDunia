@@ -1,6 +1,7 @@
 import { MESSAGE } from "../actionTypes";
 
-const messageReducer = (state = "", action) => {
+const initialState = { message: "", success: "" };
+const messageReducer = (state = initialState, action) => {
   switch (action.type) {
     case MESSAGE: {
       return action.payload;
@@ -12,3 +13,4 @@ const messageReducer = (state = "", action) => {
 };
 
 export default messageReducer;
+//
