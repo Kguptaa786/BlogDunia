@@ -20,10 +20,10 @@ import { deleteBlogAPI, detailBlogAPI } from "../redux/action/blogAction";
 import { getUserDetail } from "../utils/getUserDetail";
 import { useState } from "react";
 import {
-  deleteCommentAPI,
   getBlogCommentsAPI,
   postCommentAPI,
 } from "../redux/action/commentAction";
+import { deleteCommentAPI } from "../service/api";
 
 let comment = {
   text: "",
@@ -69,12 +69,15 @@ const ViewBlog = () => {
     // window.location.reload();
   };
 
+  const helper = async (commentId) => {
+    let data = await deleteCommentAPI(commentId);
+    if (data.success) {
+      dispatch(getBlogCommentsAPI(blogId));
+      return;
+    }
+  };
   const handleCommentDelete = (commentId) => {
-    // console.log(commentId);
-    // console.log(event.target.value);
-    // let commentId = event.target.value;
-    dispatch(deleteCommentAPI(commentId));
-    dispatch(getBlogCommentsAPI(blogId));
+    helper(commentId);
   };
 
   const handleBlogDelete = () => {
@@ -159,7 +162,7 @@ const ViewBlog = () => {
                       variant="danger"
                       className="my-1 mx-2"
                       value={comment._id}
-                      onClick={(e) => handleCommentDelete(e.target.value)}
+                      onClick={() => handleCommentDelete(comment._id)}
                     >
                       <DeleteBtnIcon />
                     </Button>

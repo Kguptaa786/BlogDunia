@@ -13,13 +13,10 @@ const Posts = () => {
   const category = searchParams.get("category")
     ? searchParams.get("category")
     : "All";
-  const handleCategory = useCallback(() => {
-    dispatch(getBlogByCategoryAPI(category));
-  }, [category, dispatch]);
 
   useEffect(() => {
-    handleCategory();
-  }, [handleCategory]);
+    dispatch(getBlogByCategoryAPI(category));
+  }, [dispatch, category]);
 
   return (
     <>

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import classes from "./LoginSignup.module.css";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { loginUserAPI, registerUserAPI } from "../redux/action/userAction";
+import { useDispatch } from "react-redux";
+import { loginUserAPI, registerUserAPI } from "../service/api";
 import { useEffect } from "react";
 
 const LoginSignup = () => {
@@ -13,7 +13,7 @@ const LoginSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggle, setToggle] = useState(false);
-  const status = useSelector((store) => store.message, shallowEqual);
+  // const status = useSelector((store) => store.message);
 
   useEffect(() => {
     let token = localStorage.getItem("token");
@@ -26,34 +26,45 @@ const LoginSignup = () => {
     setToggle(toggle ? false : true);
   };
 
-  const handleRegister = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     const user = {
       name,
       email,
       password,
     };
-    dispatch(registerUserAPI(user));
-    if (status.success) {
-      status.message.length && window.alert(status.message);
+    if (!user.name || !user.password || !user.email) {
+      window.alert("all field are required");
+      return;
+    }
+    let data = await registerUserAPI(user);
+    if (data.success) {
+      window.alert(data.message);
       setToggle(true);
     } else {
-      status.message.length && window.alert(status.message);
+      window.alert(data.message);
     }
+    setName("");
+    setEmail("");
+    setPassword("");
   };
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     const user = {
       email,
       password,
     };
-    dispatch(loginUserAPI(user));
-    if (status.success) {
-      status.message.length && window.alert(status.message);
+    if (!user.email || !user.password) {
+      window.alert("all field are required");
+      return;
+    }
+    let data = await loginUserAPI(user);
+    if (data.success) {
+      window.alert(data.message);
       navigate("/");
     } else {
-      status.message.length && window.alert(status.message);
+      window.alert(data.message);
     }
   };
 

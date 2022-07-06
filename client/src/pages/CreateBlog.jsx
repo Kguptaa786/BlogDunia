@@ -64,6 +64,10 @@ const CreateBlog = () => {
     blog.category = location.search?.split("=")[1] || "All";
     blog.user = user.userId;
     blog.userName = user.name;
+    if (blog.content.length === 0 || blog.title.length === 0) {
+      window.alert("Empty blog cant be submitted");
+      return;
+    }
     dispatch(createBlogAPI(blog));
     navigate("/");
   };
@@ -90,7 +94,11 @@ const CreateBlog = () => {
             <Col lg={1}>
               <label
                 htmlFor="fileinput"
-                style={{ marginLeft: "1rem", cursor: "pointer" }}
+                style={{
+                  marginLeft: "1rem",
+                  cursor: "pointer",
+                  marginBottom: "5px",
+                }}
               >
                 <AddBtnIcon />
               </label>

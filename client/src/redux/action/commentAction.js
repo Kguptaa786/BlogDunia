@@ -57,16 +57,16 @@ export const getBlogCommentsAPI = (blogId) => {
   };
 };
 
-export const deleteCommentAPI = (commentId) => {
-  return async (dispatch) => {
-    try {
-      const res = await axios({
-        method: "delete",
-        url: url + `/comment/delete/${commentId}`,
-      });
-      dispatch(deleteComment());
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-};
+// export const deleteCommentAPI = (commentId) => {
+//   return async (dispatch) => {
+//     try {
+//       const res = await axios({
+//         method: "delete",
+//         url: url + `/comment/delete/${commentId}`,
+//       });
+//       dispatch(deleteComment());
+//     } catch (error) {
+//       console.log(error.message);
+//     }
+//   };
+// };

@@ -62,6 +62,10 @@ const UpdateBlog = () => {
   const handleBlogSubmit = (event) => {
     event.preventDefault();
     blog.image = imgUrl;
+    if (blog.content.length === 0 || blog.title.length === 0) {
+      window.alert("Empty blog cant be submitted");
+      return;
+    }
     dispatch(updateBlogAPI(blog, blog._id));
     navigate(`/detail/${blog._id}`);
   };
