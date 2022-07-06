@@ -41,6 +41,7 @@ const ViewBlog = () => {
   const [commentText, setCommentText] = useState("");
   const blog = useSelector((store) => store.blog);
   const comments = useSelector((store) => store.comments);
+  // const [commentId,setCommentId]=useState("");
 
   useEffect(() => {
     user = getUserDetail();
@@ -64,11 +65,16 @@ const ViewBlog = () => {
     //api call
     dispatch(postCommentAPI(comment));
     setCommentText("");
+    dispatch(getBlogCommentsAPI(blogId));
     // window.location.reload();
   };
 
   const handleCommentDelete = (commentId) => {
+    // console.log(commentId);
+    // console.log(event.target.value);
+    // let commentId = event.target.value;
     dispatch(deleteCommentAPI(commentId));
+    dispatch(getBlogCommentsAPI(blogId));
   };
 
   const handleBlogDelete = () => {
@@ -152,7 +158,8 @@ const ViewBlog = () => {
                     <Button
                       variant="danger"
                       className="my-1 mx-2"
-                      onClick={handleCommentDelete(comment._id)}
+                      value={comment._id}
+                      onClick={(e) => handleCommentDelete(e.target.value)}
                     >
                       <DeleteBtnIcon />
                     </Button>

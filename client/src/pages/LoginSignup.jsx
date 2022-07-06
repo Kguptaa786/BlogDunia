@@ -15,6 +15,13 @@ const LoginSignup = () => {
   const [toggle, setToggle] = useState(false);
   const status = useSelector((store) => store.message, shallowEqual);
 
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const handleToggle = () => {
     setToggle(toggle ? false : true);
   };
